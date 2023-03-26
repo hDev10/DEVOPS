@@ -4,14 +4,9 @@ pipeline {
     stages {
         stage('HELLO') {
             steps {
-                echo 'HELOOOOOOOOOOOOO'
+                sh 'echo HELOOOOOOOOOOOOO'
             }
         }
     }
     
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
-        }
-    }
 }
