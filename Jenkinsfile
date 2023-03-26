@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                sh 'git branch'
+                sh 'git branch -a'
             }
         }
     }
