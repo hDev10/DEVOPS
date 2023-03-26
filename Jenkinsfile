@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     stages {
-      stage('build'){
+      stage('checkout'){
         steps {
-          sh 'echo building....'
+          git 'https://github.com/hDev10/DEVOPS'
         }
       }
       stage('release'){
