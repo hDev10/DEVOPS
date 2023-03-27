@@ -1,5 +1,5 @@
 def branch = 'main'
-def repoUrl = 'https://github.com/hDev10/DEVOPS'
+def repoUrl = 'git@github.com:hDev10/DEVOPS.git'
 
 pipeline {
     agent any
