@@ -28,21 +28,23 @@ pipeline {
             }
         }
         stage('Adding the version to the latest commit as a tag') {
+                 environment { 
+                GIT_TAG = "jenkins-${env.BUILD_NUMBER}"
+            }
             steps {
-                withCredentials([[
-                    $class: 'UsernamePasswordMultiBinding',
-                    credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
-                    usernameVariable: 'GIT_USERNAME',
-                    passwordVariable: 'GIT_PASSWORD'
-                ]]) {
-                    sh '''
-                        git config --global credential.username $GIT_USERNAME
-                        git config --global credential.helper '!f() { echo password=$GIT_PASSWORD; }; f'
-                    '''
-                    sh """
-                        git tag ${env.BUILD_NUMBER}
-                        git push ${repoUrl} --tags
-                    """
+                sh('''
+                    git config user.name 'my-ci-user'
+                    git config user.email 'my-ci-user@users.noreply.github.example.com'
+                    git tag -a ${env.GIT_TAG} -m "[Jenkins CI] New Tag"
+                ''')
+                
+                sshagent(['my-ssh-credentials-id']) {
+                    sh("""
+                        #!/usr/bin/env bash
+                        set +x
+                        export GIT_SSH_COMMAND="ssh -oStrictHostKeyChecking=no"
+                        git push origin ${env.GIT_TAG}
+                     """)
                 }
             }
         }
