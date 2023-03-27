@@ -40,7 +40,7 @@ pipeline {
                         git config --global credential.helper '!f() { echo password=$GIT_PASSWORD; }; f'
                     '''
                     sh """
-                        git tag ${version}
+                        git tag ${env.BUILD_NUMBER}
                         git push ${repoUrl} --tags
                     """
                 }
