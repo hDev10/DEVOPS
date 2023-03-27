@@ -1,5 +1,5 @@
-def branch = 'main'
-def repoUrl = 'https://github.com/hDev10/DEVOPS'
+def repoUrlWithAuth = "https:/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@github.com/hDev10/DEVOPS.git"
+def sourceBranch = "main"
 
 pipeline {
     agent any
@@ -7,20 +7,8 @@ pipeline {
 
         stage('Build and deploy') {
             steps {
-                sh 'echo olla mundo'
-            }
-        }
-        stage('Adding the version to the latest commit as a tag') {
-            steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'git_autentication', keyFileVariable: '/home/azship1/.ssh/id_rsa2', passphraseVariable: '', usernameVariable: '')]) {
-                    sh("""
-                    git config user.name 'hDev10'
-                    git config user.email 'lucasf3rnando@gmail.com'
-                    git remote set-url origin git@github.com:hDev10/DEVOPS.git
-                    git tag -a ${env.BUILD_NUMBER} -m 'New Tag'
-                       git push origin ${env.BUILD_NUMBER} --tags 
-               """)
-                }
+              git url: 'https://github.com/hDev10/DEVOPS', branch: 'main',
+              credentialsId: 'git_auth'
             }
         }
     }
