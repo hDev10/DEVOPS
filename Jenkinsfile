@@ -4,6 +4,7 @@ pipeline {
     stages {
       stage('checkout'){
         steps {
+          git 'init'
           git 'remote add origin https://github.com/hDev10/DEVOPS'
         }
       }
