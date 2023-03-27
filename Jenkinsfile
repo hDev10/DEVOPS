@@ -1,25 +1,46 @@
+def branch = 'main'
+def repoUrl = 'https://github.com/hDev10/DEVOPS'
+
 pipeline {
     agent any
-    
     stages {
-      stage('checkout'){
-        steps {
-          sh 'git remote -v'
-          sh 'git branch -a'
-        }
-      }
-      stage('release'){
-        steps{
-          sh 'echo release ok'
-        }
-      }
-        stage('tag') {
+        stage('Checkout example-app') {
             steps {
-                sh 'git config --global user.email "lucasf3rnando@gmail.com"'
-                sh 'git config --global user.name "Lucas"'
-                sh "git tag -a ${env.BUILD_NUMBER} -m 'Release version'"
+                git branch: branch,
+                    credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
+                    url: repoUrl
+            }
+        }
+        stage('Create version') {
+            steps {
+                script {
+                    currentDateTime = sh script: """
+                        date +"-%Y%m%d_%H%M"
+                        """.trim(), returnStdout: true
+                    version = currentDateTime.trim()  // the .trim() is necessary
+                    echo "version: " + version
+                }
+            }
+        }
+        stage('Build and deploy') {
+            ...
+        }
+        stage('Adding the version to the latest commit as a tag') {
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                        credentialsId: 'gitCred',
+                        usernameVariable: 'GIT_USERNAME',
+                        passwordVariable: 'GIT_PASSWORD']]) {
+                    sh '''
+                        git config --global credential.username $GIT_USERNAME
+                        git config --global credential.helper '!f() { echo password=$GIT_PASSWORD; }; f'
+                    '''
+                    sh """
+                        git tag ${version}
+                        git push ${repoUrl} --tags
+                    """
+                }
             }
         }
     }
-    
 }
