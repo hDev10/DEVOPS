@@ -14,8 +14,8 @@ pipeline {
         stage('TESTE'){
           steps{
             withCredentials([gitUsernamePassword(credentialsId: 'git_auth', gitToolName: 'git-tool')]) {
-            sh: "git tag -a ${env.BUILD_NUMBER} -m 'message'"
-            sh: "git push origin --tags"
+            sh "git tag -a ${env.BUILD_NUMBER} -m 'message'"
+            sh "git push origin --tags"
             }
           }
         }
