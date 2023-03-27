@@ -16,6 +16,7 @@ pipeline {
                     sh("""
                     git config user.name 'hDev10'
                     git config user.email 'lucasf3rnando@gmail.com'
+                    git remote set-url origin git@github.com:hDev10/DEVOPS.git
                     git tag -a ${env.BUILD_NUMBER} -m 'New Tag'
                        git push origin ${env.BUILD_NUMBER} --tags 
                """)
