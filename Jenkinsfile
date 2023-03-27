@@ -28,23 +28,17 @@ pipeline {
             }
         }
         stage('Adding the version to the latest commit as a tag') {
-                 environment { 
-                GIT_TAG = "jenkins-${env.BUILD_NUMBER}"
-            }
+          
             steps {
-                sh("""
+               
+                
+                sshagent(['git_autentication']) {
+                  sh("""
                     git config user.name 'hDev10'
                     git config user.email 'lucasf3rnando@gmail.com'
                     git tag -a ${env.GIT_TAG} -m 'New Tag'
+                       git push origin ${env.GIT_TAG}
                """)
-                
-                sshagent(['git_autentication']) {
-                    sh("""
-                        #!/usr/bin/env bash
-                        set +x
-                        export GIT_SSH_COMMAND="ssh -oStrictHostKeyChecking=no"
-                        git push origin ${env.GIT_TAG}
-                     """)
                 }
             }
         }
