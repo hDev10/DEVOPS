@@ -35,7 +35,7 @@ pipeline {
                 sh("""
                     git config user.name 'hDev10'
                     git config user.email 'lucasf3rnando@gmail.com'
-                    git tag -a ${env.GIT_TAG} -m "[Jenkins CI] New Tag"
+                    git tag -a ${env.GIT_TAG} -m 'New Tag'
                """)
                 
                 sshagent(['git_autentication']) {
