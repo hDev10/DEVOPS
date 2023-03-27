@@ -28,7 +28,7 @@ pipeline {
         stage('Adding the version to the latest commit as a tag') {
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                        credentialsId: 'gitCred',
+                        credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
                         usernameVariable: 'GIT_USERNAME',
                         passwordVariable: 'GIT_PASSWORD']]) {
                     sh '''
