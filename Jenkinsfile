@@ -23,15 +23,15 @@ pipeline {
             }
         }
         stage('Build and deploy') {
-            steps{
-            sh 'echo olla mundo'
+            steps {
+                sh 'echo olla mundo'
             }
         }
         stage('Adding the version to the latest commit as a tag') {
-          
             steps {
-                sshagent(['git']) {
-                  sh("""
+                withCredentials([sshUserPrivateKey(credentialsId: 'git_auth', keyFileVariable: '/home/azship1/.ssh/id_rsa2.pub
+', passphraseVariable: '', usernameVariable: '')]) {
+                    sh("""
                     git config user.name 'hDev10'
                     git config user.email 'lucasf3rnando@gmail.com'
                     git tag -a ${env.BUILD_NUMBER} -m 'New Tag'
