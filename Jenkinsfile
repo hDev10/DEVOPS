@@ -18,7 +18,7 @@ pipeline {
                 sh 'git config --global user.email "lucasf3rnando@gmail.com"'
                 sh 'git config --global user.name "Lucas"'
                 sh "git tag -a ${env.BUILD_NUMBER} -m 'Release version'"
-                sh 'git push origin --tags'
+                sh 'git push --tags'
             }
         }
     }
