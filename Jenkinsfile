@@ -7,8 +7,8 @@ pipeline {
         stage('Checkout example-app') {
             steps {
                 git branch: branch,
-                    credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
-                    url: repoUrl
+                credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
+                url: repoUrl
             }
         }
         stage('Create version') {
@@ -23,14 +23,18 @@ pipeline {
             }
         }
         stage('Build and deploy') {
-            ...
+            steps{
+            sh 'echo olla mundo'
+            }
         }
         stage('Adding the version to the latest commit as a tag') {
             steps {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                        credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
-                        usernameVariable: 'GIT_USERNAME',
-                        passwordVariable: 'GIT_PASSWORD']]) {
+                withCredentials([[
+                    $class: 'UsernamePasswordMultiBinding',
+                    credentialsId: '68c68f2c-ce30-438c-bca8-ef066ac53caf',
+                    usernameVariable: 'GIT_USERNAME',
+                    passwordVariable: 'GIT_PASSWORD'
+                ]]) {
                     sh '''
                         git config --global credential.username $GIT_USERNAME
                         git config --global credential.helper '!f() { echo password=$GIT_PASSWORD; }; f'
