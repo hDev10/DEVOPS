@@ -32,11 +32,11 @@ pipeline {
                 GIT_TAG = "jenkins-${env.BUILD_NUMBER}"
             }
             steps {
-                sh('''
-                    git config user.name hDev10
-                    git config user.email lucasf3rnando@gmail.com
+                sh("""
+                    git config user.name 'hDev10'
+                    git config user.email 'lucasf3rnando@gmail.com'
                     git tag -a ${env.GIT_TAG} -m "[Jenkins CI] New Tag"
-                ''')
+               """)
                 
                 sshagent(['git_autentication']) {
                     sh("""
