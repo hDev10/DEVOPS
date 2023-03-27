@@ -30,7 +30,7 @@ pipeline {
         stage('Adding the version to the latest commit as a tag') {
           
             steps {
-                sshagent(['git_auth']) {
+                sshagent(['git']) {
                   sh("""
                     git config user.name 'hDev10'
                     git config user.email 'lucasf3rnando@gmail.com'
